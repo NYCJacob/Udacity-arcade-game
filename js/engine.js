@@ -91,9 +91,11 @@ var Engine = (function(global) {
      * render methods.
      */
     function updateEntities(dt) {
-        allEnemies.forEach(function(enemy) {
-            enemy.update(dt);
-        });
+        if (player.status === true){
+            allEnemies.forEach(function(enemy) {
+                enemy.update(dt);
+            });
+        }
         player.update(dt);    // added dt parameter to pass to player.update for kill feature
     }
 
