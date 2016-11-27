@@ -5,6 +5,22 @@ function randomInt(min, max) {
     return rand;
 }
 
+// collision detection
+// based on MDN https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
+function checkCollisions() {
+    allEnemies.forEach(function (enemy) {
+        // hard coded values based on png width less empty space using trial and error
+        if (enemy.x < player.x + 80 &&
+            enemy.x + 80 > player.x &&
+            enemy.y < player.y + 60 &&
+            enemy.y + 60 > player.y) {
+            console.log("COLLISION!!!" + "enemyX is " + enemy.x + "enemyY is " + enemy.y);
+            console.log("Player x and y are" + player.x + "- " + player.y);
+            player.status = false;
+        }  // end if
+    });
+}
+
 // Enemies our player must avoid
 var Enemy = function() {
     // The image/sprite for our enemies, this uses
@@ -52,25 +68,49 @@ var Player = function() {
     // player start coordinates
     this.x = 200;
     this.y = 425;
+    this.status = true;
 };
 
 Player.prototype.handleInput = function (pressedKey) {
-    if(pressedKey === 'left' && this.x > 0){
-        this.x -=50;
+    switch (pressedKey){
+        case 'left':
+            this.x -= 50;
+            break;
+        case 'right':
+            this.x += 50;
+            break;
+        case 'up':
+            this.y -= 25;
+            break;
+        case 'down':
+            this.y += 25;
+            break;
     }
-    if(pressedKey === 'up' && this.y > 0){
-        this.y -= 25;
+    // condition statements to keep player on the board
+    if (this.x > 420){
+        this.x = 420;
     }
-    if(pressedKey === 'right' && this.x < 400){
-        this.x += 50;
+    if (this.y > 425){
+        this.y = 425;
     }
-    if(pressedKey === 'down' && this.y < 425){
-        this.y +=25;
+    if (this.x < -10){
+        this.x = -10;
     }
+    if (this.y <= 0){
+        this.y = 0;
+    }
+
 };
 
-Player.prototype.update = function () {
+Player.prototype.update = function (dt) {
     // player update code
+    if (player.status === false) {
+        while (player.y < 500) {
+            player.y += .001 * dt;
+        }
+    }
+
+
 };
 
 Player.prototype.render = function () {
