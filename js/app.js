@@ -72,19 +72,22 @@ var Player = function() {
 };
 
 Player.prototype.handleInput = function (pressedKey) {
-    switch (pressedKey){
-        case 'left':
-            this.x -= 50;
-            break;
-        case 'right':
-            this.x += 50;
-            break;
-        case 'up':
-            this.y -= 25;
-            break;
-        case 'down':
-            this.y += 25;
-            break;
+    if (player.status === true){
+        switch (pressedKey){
+            case 'left':
+                this.x -= 50;
+                break;
+            case 'right':
+                this.x += 50;
+                break;
+            case 'up':
+                this.y -= 25;
+                break;
+            case 'down':
+                this.y += 25;
+                break;
+        }
+
     }
     // condition statements to keep player on the board
     if (this.x > 420){
@@ -104,13 +107,9 @@ Player.prototype.handleInput = function (pressedKey) {
 
 Player.prototype.update = function (dt) {
     // player update code
-    if (player.status === false) {
-        while (player.y < 500) {
-            player.y += .001 * dt;
-        }
+    if (player.status === false  && player.y < 425) {
+            player.y += 20 * dt;
     }
-
-
 };
 
 Player.prototype.render = function () {
