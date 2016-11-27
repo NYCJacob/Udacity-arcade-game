@@ -144,14 +144,14 @@ var Engine = (function(global) {
      * on your enemy and player entities within app.js
      */
     function renderEntities() {
-        /* Loop through all of the objects within the allEnemies array and call
-         * the render function you have defined.
-         */
-        allEnemies.forEach(function(enemy) {
-            enemy.render();
-        });
+            /* Loop through all of the objects within the allEnemies array and call
+             * the render function you have defined.
+             */
+            allEnemies.forEach(function(enemy) {
+                enemy.render();
+            });
 
-        player.render();
+            player.render();
     }
 
     /* This function does nothing but it could have been a good place to
@@ -159,7 +159,10 @@ var Engine = (function(global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
-        // noop
+        player.x = 200;
+        player.y = 425;
+        player.status = true;
+        player.deaths = 0;
     }
 
     /* Go ahead and load all of the images we know we're going to need to

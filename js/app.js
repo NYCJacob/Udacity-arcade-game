@@ -16,9 +16,19 @@ function checkCollisions() {
             enemy.y + 60 > player.y) {
             console.log("COLLISION!!!" + "enemyX is " + enemy.x + "enemyY is " + enemy.y);
             console.log("Player x and y are" + player.x + "- " + player.y);
+            player.deaths += 1;
             player.status = false;
         }  // end if
     });
+}  // end checkCollisions()
+
+function gameOver() {
+    ctx.font = "36px Impact";
+    ctx.textAlign = "center";
+    ctx.fillStyle = "red";
+    ctx.strokeStyle = "black";
+    ctx.fillText("GAME OVER!!!", 200, 200);
+    ctx.strokeText('GAME OVER!!!', 200, 200 );
 }
 
 // Enemies our player must avoid
@@ -68,11 +78,13 @@ var Player = function() {
     // player start coordinates
     this.x = 200;
     this.y = 425;
-    this.status = true;
+    this.points = 0;
+    this.maxLives = 2;
+    this.deaths = 0;
 };
 
 Player.prototype.handleInput = function (pressedKey) {
-    if (player.status === true){
+    if (player.status == true){
         switch (pressedKey){
             case 'left':
                 this.x -= 50;
@@ -107,8 +119,25 @@ Player.prototype.handleInput = function (pressedKey) {
 
 Player.prototype.update = function (dt) {
     // player update code
-    if (player.status === false  && player.y < 425) {
+
+    // player falls upon collision below river
+    if (player.status == false  && player.y < 425) {
             player.y += 20 * dt;
+    }
+    // player gets another chance until all lives used
+    // need to allow player to fall all the way back before condition execution
+    if (player.status == false && (player.y >= 425) && !(player.deaths == player.maxLives)){
+        //player gets another chance
+        player.status = true;
+    }
+    if (player.deaths == player.maxLives) {
+        gameOver();
+    }
+
+    // player reached river
+    if (player.status == true && player.y < 100){
+        // implement success feature
+        player.points += 1;
     }
 };
 
