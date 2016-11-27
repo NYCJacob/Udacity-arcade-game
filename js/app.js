@@ -16,7 +16,6 @@ function checkCollisions() {
             enemy.y + 60 > player.y) {
             console.log("COLLISION!!!" + "enemyX is " + enemy.x + "enemyY is " + enemy.y);
             console.log("Player x and y are" + player.x + "- " + player.y);
-            player.deaths += 1;
             player.status = false;
         }  // end if
     });
@@ -119,7 +118,6 @@ Player.prototype.handleInput = function (pressedKey) {
 
 Player.prototype.update = function (dt) {
     // player update code
-
     // player falls upon collision below river
     if (player.status == false  && player.y < 425) {
             player.y += 20 * dt;
