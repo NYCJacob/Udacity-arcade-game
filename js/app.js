@@ -34,18 +34,18 @@ function gameOver() {
 var Enemy = function() {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
-    this.sprite = 'images/enemy-bug.png';
+    this.sprite = 'images/enemy-bug-cut.png';
     // random starting position of enemy
-    // TODO:  need to figure out coord boudaries and y rows
+    // TODO:  need to figure out coord boundaries and y rows
     // canvas dimensions are set at width = 505; height = 606
     // Math.floor to get random int
     this.minX = 0;
     // canvas width = 505
     this.maxX = 505;
     // min needs to clear river at top therefore not 0
-    this.minY = 15;
+    this.minY = 100;
     // maxY needs to stay above player area  canvas height = 606
-    this.maxY = 230;
+    this.maxY = 325;
     this.x = randomInt(this.minX, this.maxX);
     this.y = randomInt(this.minY, this.maxY);
 };
@@ -73,10 +73,10 @@ Enemy.prototype.render = function() {
 // a handleInput() method.
 var Player = function() {
     // player sprite
-    this.sprite = 'images/char-boy.png';
+    this.sprite = 'images/char-boy-cut.png';
     // player start coordinates
     this.x = 200;
-    this.y = 425;
+    this.y = 500;
     this.points = 0;
     this.maxLives = 2;
     this.deaths = 0;
@@ -104,8 +104,8 @@ Player.prototype.handleInput = function (pressedKey) {
     if (this.x > 420){
         this.x = 420;
     }
-    if (this.y > 425){
-        this.y = 425;
+    if (this.y > 500){
+        this.y = 500;
     }
     if (this.x < -10){
         this.x = -10;
@@ -116,15 +116,21 @@ Player.prototype.handleInput = function (pressedKey) {
 
 };
 
+Player.prototype.collisionCount = function () {
+    this.deaths += 1;
+}
+
 Player.prototype.update = function (dt) {
     // player update code
     // player falls upon collision below river
-    if (player.status == false  && player.y < 425) {
-            player.y += 20 * dt;
+    if (player.status == false  && player.y < 500) {
+        player.y += 40 * dt;
     }
     // player gets another chance until all lives used
     // need to allow player to fall all the way back before condition execution
-    if (player.status == false && (player.y >= 425) && !(player.deaths == player.maxLives)){
+    if (player.status == false && (player.y >= 500) && !(player.deaths == player.maxLives)){
+        // count collision upon return to avoid multiple collision count
+        player.collisionCount();
         //player gets another chance
         player.status = true;
     }

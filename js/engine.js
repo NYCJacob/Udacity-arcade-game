@@ -80,6 +80,8 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
+        // setInterval used to prevent multiple collision count on collision
+        //setInterval(checkCollisions(), 10000);
         checkCollisions();
     }
 
@@ -162,7 +164,7 @@ var Engine = (function(global) {
      */
     function reset() {
         player.x = 200;
-        player.y = 425;
+        player.y = 500;
         player.status = true;
         player.deaths = 0;
     }
@@ -176,7 +178,9 @@ var Engine = (function(global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug.png',
-        'images/char-boy.png'
+        'images/enemy-bug-cut.png',
+        'images/char-boy.png',
+        'images/char-boy-cut.png'
     ]);
     Resources.onReady(init);
 
