@@ -1,8 +1,18 @@
+// player start coor set in global var because needed in multiple functions/methods
+var startCoor = [200, 500];
+
 // global random int generator
 function randomInt(min, max) {
     var rand = Math.random() * (max - min + 1);
     rand = Math.floor(rand) + min;
     return rand;
+}
+
+function scoreBoard() {
+    var livesDiv = document.getElementById('lives');
+    livesDiv.innerHTML = '<p>Lives Remaining: ' + (player.maxLives - player.deaths) + '</p>';
+    var scoreDiv = document.getElementById('score');
+    scoreDiv.innerHTML = '<p>Score: ' + player.points;
 }
 
 // collision detection
@@ -29,6 +39,7 @@ function gameOver() {
     ctx.fillText("GAME OVER!!!", 200, 200);
     ctx.strokeText('GAME OVER!!!', 200, 200 );
 }
+
 
 // Enemies our player must avoid
 var Enemy = function() {
@@ -68,6 +79,7 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
@@ -75,8 +87,9 @@ var Player = function() {
     // player sprite
     this.sprite = 'images/char-boy-cut.png';
     // player start coordinates
-    this.x = 200;
-    this.y = 500;
+
+    this.x = startCoor[0];
+    this.y = startCoor[1];
     this.points = 0;
     this.maxLives = 2;
     this.deaths = 0;
@@ -101,24 +114,45 @@ Player.prototype.handleInput = function (pressedKey) {
 
     }
     // condition statements to keep player on the board
-    if (this.x > 420){
-        this.x = 420;
+    if (this.x > 450){
+        this.x = 450;
     }
     if (this.y > 500){
         this.y = 500;
     }
-    if (this.x < -10){
-        this.x = -10;
+    if (this.x < 0){
+        this.x = 0;
     }
-    if (this.y <= 0){
-        this.y = 0;
+    if (this.y <= 50){
+        this.y = 50;
     }
-
 };
+
+function playerReset() {
+    player.x = startCoor[0];
+    player.y = startCoor[1];
+}
+
+// Player.prototype.success = function () {
+//      ctx.font = "24px Helvetica";
+//      ctx.textAlign = "center";
+//      ctx.fillStyle = "green";
+//      ctx.fillText("SUCCESS!!!", 250, 50);
+//      player.points += 1;
+//      var scoreDiv = document.getElementById('score');
+//      scoreDiv.innerHTML = '';
+//      scoreDiv.innerHTML = '<p>Score: ' + player.points;
+//     setTimeout(playerReset, 10000);
+// };
+
 
 Player.prototype.collisionCount = function () {
     this.deaths += 1;
-}
+    var livesDiv =  document.getElementById('lives');
+    livesDiv.innerHTML = '';
+    livesDiv.innerHTML = '<h2>Lives Remaining: ' + (player.maxLives - player.deaths) + '</h2>';
+
+};
 
 Player.prototype.update = function (dt) {
     // player update code
@@ -134,6 +168,7 @@ Player.prototype.update = function (dt) {
         //player gets another chance
         player.status = true;
     }
+
     if (player.deaths == player.maxLives) {
         gameOver();
     }
@@ -141,7 +176,8 @@ Player.prototype.update = function (dt) {
     // player reached river
     if (player.status == true && player.y < 100){
         // implement success feature
-        player.points += 1;
+        player.status === false;
+        //player.success();
     }
 };
 

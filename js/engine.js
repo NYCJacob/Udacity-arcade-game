@@ -80,8 +80,6 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
-        // setInterval used to prevent multiple collision count on collision
-        //setInterval(checkCollisions(), 10000);
         checkCollisions();
     }
 
@@ -93,12 +91,14 @@ var Engine = (function(global) {
      * render methods.
      */
     function updateEntities(dt) {
+        // condition checks for result of checkCollisions before updated anime loop
         if (player.status === true){
             allEnemies.forEach(function(enemy) {
                 enemy.update(dt);
             });
         }
-        player.update(dt);    // added dt parameter to pass to player.update for kill feature
+        // added dt parameter to pass to player.update for kill feature
+        player.update(dt);
     }
 
     /* This function initially draws the "game level", it will then call
@@ -167,6 +167,8 @@ var Engine = (function(global) {
         player.y = 500;
         player.status = true;
         player.deaths = 0;
+        // scoreboard dom
+        scoreBoard();
     }
 
     /* Go ahead and load all of the images we know we're going to need to
