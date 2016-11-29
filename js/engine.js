@@ -92,10 +92,14 @@ var Engine = (function(global) {
      */
     function updateEntities(dt) {
         // condition checks for result of checkCollisions before updated anime loop
-        if (player.status === true){
+        if (player.status == true){
             allEnemies.forEach(function(enemy) {
                 enemy.update(dt);
             });
+        }
+        // check if river reached player.success === true
+        if (player.success == true){
+            reset();
         }
         // added dt parameter to pass to player.update for kill feature
         player.update(dt);

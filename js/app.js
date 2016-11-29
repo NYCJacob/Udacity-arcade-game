@@ -79,7 +79,6 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
@@ -87,16 +86,16 @@ var Player = function() {
     // player sprite
     this.sprite = 'images/char-boy-cut.png';
     // player start coordinates
-
     this.x = startCoor[0];
     this.y = startCoor[1];
     this.points = 0;
     this.maxLives = 2;
     this.deaths = 0;
+    this.success = false;
 };
 
 Player.prototype.handleInput = function (pressedKey) {
-    if (player.status == true){
+    if ((player.status == true) && (player.success == false)){
         switch (pressedKey){
             case 'left':
                 this.x -= 50;
@@ -127,11 +126,6 @@ Player.prototype.handleInput = function (pressedKey) {
         this.y = 50;
     }
 };
-
-function playerReset() {
-    player.x = startCoor[0];
-    player.y = startCoor[1];
-}
 
 // Player.prototype.success = function () {
 //      ctx.font = "24px Helvetica";
@@ -174,9 +168,11 @@ Player.prototype.update = function (dt) {
     }
 
     // player reached river
-    if (player.status == true && player.y < 100){
+    if (player.status == true && player.y <= 50){
         // implement success feature
-        player.status === false;
+        console.log("player reached river player.update condition");
+        player.success = true;
+        player.points += 1;
         //player.success();
     }
 };
