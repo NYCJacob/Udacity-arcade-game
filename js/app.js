@@ -8,11 +8,21 @@ function randomInt(min, max) {
     return rand;
 }
 
-function scoreBoard() {
+function scoreBoard(gameEvent) {
     var livesDiv = document.getElementById('lives');
     livesDiv.innerHTML = '<p>Lives Remaining: ' + (player.maxLives - player.deaths) + '</p>';
     var scoreDiv = document.getElementById('score');
     scoreDiv.innerHTML = '<p>Score: ' + player.points;
+    switch (gameEvent) {
+        // success message
+        case 1:
+
+            break;
+        // collision message
+        case -1:
+
+            break;
+    }
 }
 
 // collision detection

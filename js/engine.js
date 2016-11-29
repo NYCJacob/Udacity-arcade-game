@@ -100,6 +100,7 @@ var Engine = (function(global) {
         // check if river reached player.success === true
         if (player.success == true){
             reset();
+            player.success = false;
         }
         // added dt parameter to pass to player.update for kill feature
         player.update(dt);
