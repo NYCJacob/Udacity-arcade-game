@@ -76,12 +76,13 @@ function checkCollisions() {
 
     // check gems collisions
     allGems.forEach(function (gem) {
-        if (gem.x < player.x + 80 &&
-            gem.x + 80 > player.x &&
+        if (gem.x < player.x + 60 &&
+            gem.x + 60 > player.x &&
             gem.y < player.y + 60 &&
             gem.y + 60 > player.y) {
             console.log("player - Gem COLLISION!!!");
             player.hitGem = true;
+            // make gem disappear off screen
             gem.x = 610;
         }  // end if
     })
