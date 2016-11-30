@@ -8,21 +8,47 @@ function randomInt(min, max) {
     return rand;
 }
 
+//  created this function to allow message to remain on
+function clearMessage() {
+    // clear canvas display rect
+    ctx.clearRect(0, 0, 505, 50);
+}
+
 function scoreBoard(gameEvent) {
     var livesDiv = document.getElementById('lives');
+    livesDiv.innerHTML = '';
     livesDiv.innerHTML = '<p>Lives Remaining: ' + (player.maxLives - player.deaths) + '</p>';
     var scoreDiv = document.getElementById('score');
+    scoreDiv.innerHTML = '';
     scoreDiv.innerHTML = '<p>Score: ' + player.points;
+
     switch (gameEvent) {
         // success message
         case 1:
-
+            ctx.font = "24px Helvetica";
+            ctx.textAlign = "center";
+            ctx.fillStyle = "green";
+            ctx.fillText("SUCCESS!!!", 250, 50);
             break;
         // collision message
         case -1:
-
+            ctx.font = "24px Helvetica";
+            ctx.textAlign = "center";
+            ctx.fillStyle = "red";
+            ctx.fillText("COLLISION!!!", 250, 50);
+            break;
+        // game over message
+        case 0:
+            ctx.font = "36px Impact";
+            ctx.textAlign = "center";
+            ctx.fillStyle = "red";
+            ctx.strokeStyle = "black";
+            ctx.fillText("GAME OVER!!!", 200, 200);
+            ctx.strokeText('GAME OVER!!!', 200, 200 );
             break;
     }
+    // clear message after shortly after display
+    setTimeout(clearMessage, 10000);
 }
 
 // collision detection
@@ -34,21 +60,12 @@ function checkCollisions() {
             enemy.x + 80 > player.x &&
             enemy.y < player.y + 60 &&
             enemy.y + 60 > player.y) {
-            console.log("COLLISION!!!" + "enemyX is " + enemy.x + "enemyY is " + enemy.y);
-            console.log("Player x and y are" + player.x + "- " + player.y);
+          //  console.log("COLLISION!!!" + "enemyX is " + enemy.x + "enemyY is " + enemy.y);
+          //  console.log("Player x and y are" + player.x + "- " + player.y);
             player.status = false;
         }  // end if
     });
 }  // end checkCollisions()
-
-function gameOver() {
-    ctx.font = "36px Impact";
-    ctx.textAlign = "center";
-    ctx.fillStyle = "red";
-    ctx.strokeStyle = "black";
-    ctx.fillText("GAME OVER!!!", 200, 200);
-    ctx.strokeText('GAME OVER!!!', 200, 200 );
-}
 
 
 // Enemies our player must avoid
@@ -137,44 +154,25 @@ Player.prototype.handleInput = function (pressedKey) {
     }
 };
 
-// Player.prototype.success = function () {
-//      ctx.font = "24px Helvetica";
-//      ctx.textAlign = "center";
-//      ctx.fillStyle = "green";
-//      ctx.fillText("SUCCESS!!!", 250, 50);
-//      player.points += 1;
-//      var scoreDiv = document.getElementById('score');
-//      scoreDiv.innerHTML = '';
-//      scoreDiv.innerHTML = '<p>Score: ' + player.points;
-//     setTimeout(playerReset, 10000);
-// };
-
-
-Player.prototype.collisionCount = function () {
-    this.deaths += 1;
-    var livesDiv =  document.getElementById('lives');
-    livesDiv.innerHTML = '';
-    livesDiv.innerHTML = '<h2>Lives Remaining: ' + (player.maxLives - player.deaths) + '</h2>';
-
-};
-
 Player.prototype.update = function (dt) {
     // player update code
     // player falls upon collision below river
     if (player.status == false  && player.y < 500) {
         player.y += 40 * dt;
+        // update scoreBoard
+        scoreBoard(-1);
     }
     // player gets another chance until all lives used
     // need to allow player to fall all the way back before condition execution
     if (player.status == false && (player.y >= 500) && !(player.deaths == player.maxLives)){
         // count collision upon return to avoid multiple collision count
-        player.collisionCount();
+        player.deaths += 1;
         //player gets another chance
         player.status = true;
     }
 
     if (player.deaths == player.maxLives) {
-        gameOver();
+        scoreBoard(0);
     }
 
     // player reached river
@@ -183,7 +181,7 @@ Player.prototype.update = function (dt) {
         console.log("player reached river player.update condition");
         player.success = true;
         player.points += 1;
-        //player.success();
+        scoreBoard(1);
     }
 };
 

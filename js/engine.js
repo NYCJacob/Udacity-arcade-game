@@ -171,9 +171,6 @@ var Engine = (function(global) {
         player.x = 200;
         player.y = 500;
         player.status = true;
-        player.deaths = 0;
-        // scoreboard dom
-        scoreBoard();
     }
 
     /* Go ahead and load all of the images we know we're going to need to
