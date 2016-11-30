@@ -86,6 +86,7 @@ var Enemy = function() {
     this.maxY = 325;
     this.x = randomInt(this.minX, this.maxX);
     this.y = randomInt(this.minY, this.maxY);
+    this.speed = randomInt(50, 80);
 };
 
 // Update the enemy's position, required method for game
@@ -97,7 +98,7 @@ Enemy.prototype.update = function(dt) {
         this.x = -20;
         this.y = randomInt(this.minY, this.maxY);
     } else {
-        this.x += 50 * dt;
+        this.x += this.speed * dt;
     }
 };
 

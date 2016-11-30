@@ -66,6 +66,8 @@ var Engine = (function(global) {
     function init() {
         reset();
         lastTime = Date.now();
+        // init scoreBoard
+        scoreBoard();
         main();
     }
 
