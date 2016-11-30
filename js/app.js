@@ -48,6 +48,12 @@ function scoreBoard(gameEvent) {
             //  I left this here for trying to get text on top of game board
             ctx.strokeText('GAME OVER!!!', 250, 200 );
             break;
+        case 2:
+            ctx.font = "24px Helvetica";
+            ctx.textAlign = "center";
+            ctx.fillStyle = "orange";
+            ctx.fillText("BONUS!!!", 250, 45);
+            break;
     }
     // clear message after time out
     setTimeout(clearMessage, 10000);
@@ -67,6 +73,18 @@ function checkCollisions() {
             player.status = false;
         }  // end if
     });
+
+    // check gems collisions
+    allGems.forEach(function (gem) {
+        if (gem.x < player.x + 80 &&
+            gem.x + 80 > player.x &&
+            gem.y < player.y + 60 &&
+            gem.y + 60 > player.y) {
+            console.log("player - Gem COLLISION!!!");
+            player.hitGem = true;
+            gem.x = 610;
+        }  // end if
+    })
 }  // end checkCollisions()
 
 
@@ -132,6 +150,7 @@ var Player = function() {
     this.deaths = startDeaths;
     this.dead = dead;
     this.success = success;
+    this.hitGem = false;
 };
 
 //  seems like there should be a better way to do this
@@ -212,6 +231,16 @@ Player.prototype.update = function (dt) {
         player.points += 1;
         scoreBoard(1);
     }
+
+    // hit gem bonus points
+    if (player.hitGem === true) {
+        player.points += 5;
+        // 2 is bonus points switch case in scoreBoard()
+        scoreBoard(2);
+        // reset to prevent multiple bonuses
+        player.hitGem = false;
+    }
+
 };
 
 Player.prototype.render = function () {
@@ -221,7 +250,7 @@ Player.prototype.render = function () {
 
 var Gem = function (color) {
     // The image/sprite for gem
-    this.sprite = 'images/Gem-' + color + '-cut.png';
+    this.sprite = 'images/Gem-' + color + '-sm.png';
     // random starting position of enemy
     // canvas dimensions are set at width = 505; height = 606
     // Math.floor to get random int

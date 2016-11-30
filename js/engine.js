@@ -202,9 +202,9 @@ var Engine = (function(global) {
         'images/enemy-bug-cut.png',
         'images/char-boy.png',
         'images/char-boy-cut.png',
-        'images/Gem-Blue-cut.png',
-        'images/Gem-Green-cut.png',
-        'images/Gem-Orange-cut.png',
+        'images/Gem-Blue-sm.png',
+        'images/Gem-Green-sm.png',
+        'images/Gem-Orange-sm.png',
         'images/Heart-cut.png'
     ]);
     Resources.onReady(init);
