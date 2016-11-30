@@ -167,6 +167,8 @@ Player.prototype.update = function (dt) {
     if (player.status == false && (player.y >= 500) && !(player.deaths == player.maxLives)){
         // count collision upon return to avoid multiple collision count
         player.deaths += 1;
+        // call scoreboard again so death gets scored upon player return to bottom
+        scoreBoard();
         //player gets another chance
         player.status = true;
     }
