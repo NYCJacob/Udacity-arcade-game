@@ -43,7 +43,8 @@ function scoreBoard(gameEvent) {
             ctx.textAlign = "center";
             ctx.fillStyle = "red";
             ctx.strokeStyle = "black";
-            ctx.fillText("GAME OVER!!!", 200, 200);
+            clearMessage();
+            ctx.fillText("GAME OVER!!!", 200, 50);
             ctx.strokeText('GAME OVER!!!', 200, 200 );
             break;
     }
@@ -83,9 +84,10 @@ var Enemy = function() {
     // min needs to clear river at top therefore not 0
     this.minY = 100;
     // maxY needs to stay above player area  canvas height = 606
-    this.maxY = 325;
+    this.maxY = 330;
     this.x = randomInt(this.minX, this.maxX);
     this.y = randomInt(this.minY, this.maxY);
+    // give random speeds to bugs
     this.speed = randomInt(50, 80);
 };
 
@@ -119,11 +121,12 @@ var Player = function() {
     this.points = 0;
     this.maxLives = 2;
     this.deaths = 0;
+    this.dead = false;
     this.success = false;
 };
 
 Player.prototype.handleInput = function (pressedKey) {
-    if ((player.status == true) && (player.success == false)){
+    if ((player.status == true) && (player.success == false) && player.dead == false){
         switch (pressedKey){
             case 'left':
                 this.x -= 50;
@@ -175,7 +178,7 @@ Player.prototype.update = function (dt) {
     }
 
     if (player.deaths == player.maxLives) {
-        scoreBoard(0);
+        player.dead = true;
     }
 
     // player reached river

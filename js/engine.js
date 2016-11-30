@@ -94,11 +94,16 @@ var Engine = (function(global) {
      */
     function updateEntities(dt) {
         // condition checks for result of checkCollisions before updated anime loop
-        if (player.status == true){
+        if ((player.status == true) && (player.dead == false)) {
             allEnemies.forEach(function(enemy) {
                 enemy.update(dt);
             });
         }
+        // check if game over
+        if (player.dead == true) {
+            scoreBoard(0);
+        }
+
         // check if river reached player.success === true
         if (player.success == true){
             reset();
@@ -186,7 +191,11 @@ var Engine = (function(global) {
         'images/enemy-bug.png',
         'images/enemy-bug-cut.png',
         'images/char-boy.png',
-        'images/char-boy-cut.png'
+        'images/char-boy-cut.png',
+        'images/Gem-Blue-cut.png',
+        'images/Gem-Green-cut.png',
+        'images/Gem-Orange-cut.png',
+        'images/Heart-cut.png'
     ]);
     Resources.onReady(init);
 
