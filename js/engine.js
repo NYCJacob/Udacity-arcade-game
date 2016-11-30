@@ -111,6 +111,11 @@ var Engine = (function(global) {
         }
         // added dt parameter to pass to player.update for kill feature
         player.update(dt);
+
+        // update all gems
+        allGems.forEach(function (gem) {
+            gem.update();
+        })
     }
 
     /* This function initially draws the "game level", it will then call
@@ -168,6 +173,11 @@ var Engine = (function(global) {
             });
 
             player.render();
+
+            // render gems
+            allGems.forEach(function (gem) {
+                gem.render();
+            })
     }
 
     /* This function does nothing but it could have been a good place to

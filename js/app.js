@@ -1,3 +1,5 @@
+// game class for these global functions ???
+
 
 // global random int generator
 function randomInt(min, max) {
@@ -47,7 +49,7 @@ function scoreBoard(gameEvent) {
             ctx.strokeText('GAME OVER!!!', 250, 200 );
             break;
     }
-    // clear message after shortly after display
+    // clear message after time out
     setTimeout(clearMessage, 10000);
 }
 
@@ -74,7 +76,6 @@ var Enemy = function() {
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug-cut.png';
     // random starting position of enemy
-    // TODO:  need to figure out coord boundaries and y rows
     // canvas dimensions are set at width = 505; height = 606
     // Math.floor to get random int
     this.minX = 0;
@@ -217,7 +218,38 @@ Player.prototype.render = function () {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y)
 };
 
-// Player.prototype.reset = reset;
+
+var Gem = function (color) {
+    // The image/sprite for gem
+    this.sprite = 'images/Gem-' + color + '-cut.png';
+    // random starting position of enemy
+    // canvas dimensions are set at width = 505; height = 606
+    // Math.floor to get random int
+    this.minX = 0;
+    // canvas width = 505
+    this.maxX = 505;
+    // min needs to clear river at top therefore not 0
+    this.minY = 100;
+    // maxY needs to stay above player area  canvas height = 606
+    this.maxY = 330;
+    this.x = randomInt(this.minX, this.maxX);
+    this.y = randomInt(this.minY, this.maxY);
+};
+
+Gem.prototype.update = function () {
+
+};
+
+// Draw the ge, on the screen
+Gem.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+var gems = ['Orange', 'Green', 'Blue'];
+var allGems = [];
+for (var x = 0; x < gems.length; x++) {
+    allGems.push(new Gem(gems[x]));
+}
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
