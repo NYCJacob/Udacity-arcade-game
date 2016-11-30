@@ -204,4 +204,6 @@ var Engine = (function(global) {
      * from within their app.js files.
      */
     global.ctx = ctx;
+    // assign reset function to player object to allow uer reset
+    //global.reset = reset();
 })(this);

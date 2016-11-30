@@ -1,5 +1,3 @@
-// player start coor set in global var because needed in multiple functions/methods
-var startCoor = [200, 500];
 
 // global random int generator
 function randomInt(min, max) {
@@ -109,6 +107,15 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+// Player starting values
+// player start coor set in global var because needed in multiple functions/methods
+var startCoor = [200, 500];
+var startPoints = 0;
+var maxLives =  2;
+var startDeaths = 0;
+var dead = false;
+var success = false;
+
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
@@ -118,12 +125,25 @@ var Player = function() {
     // player start coordinates
     this.x = startCoor[0];
     this.y = startCoor[1];
-    this.points = 0;
-    this.maxLives = 2;
-    this.deaths = 0;
-    this.dead = false;
-    this.success = false;
+    this.points = startPoints;
+    this.maxLives = maxLives;
+    this.deaths = startDeaths;
+    this.dead = dead;
+    this.success = success;
 };
+
+//  seems like there should be a better way to do this but I could not find a way to
+// call Engine.init
+Player.prototype.reset = function () {
+    this.x = startCoor[0];
+    this.y = startCoor[1];
+    this.points = startPoints;
+    this.maxLives = maxLives;
+    this.deaths = startDeaths;
+    this.dead = dead;
+    this.success = success;
+    //scoreBoard();
+}
 
 Player.prototype.handleInput = function (pressedKey) {
     if ((player.status == true) && (player.success == false) && player.dead == false){
@@ -195,6 +215,7 @@ Player.prototype.render = function () {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y)
 };
 
+// Player.prototype.reset = reset;
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
@@ -219,3 +240,13 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
+// new game button
+newGameDiv = document.createElement('div');
+newGameButton = document.createElement('button');
+newGameButton.innerHTML = 'New Game';
+newGameDiv.appendChild(newGameButton);
+document.body.appendChild(newGameDiv);
+
+// it seems this becomes the window when calling player.reset from event listener  ?????
+newGameButton.addEventListener('click', player.reset.call(player));
