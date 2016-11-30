@@ -132,8 +132,9 @@ var Player = function() {
     this.success = success;
 };
 
-//  seems like there should be a better way to do this but I could not find a way to
-// call Engine.init
+//  seems like there should be a better way to do this
+//  because now I nav two sets of the same vars for Player
+//  but I could not find a way to call Engine.init
 Player.prototype.reset = function () {
     this.x = startCoor[0];
     this.y = startCoor[1];
@@ -142,8 +143,8 @@ Player.prototype.reset = function () {
     this.deaths = startDeaths;
     this.dead = dead;
     this.success = success;
-    //scoreBoard();
-}
+    scoreBoard();
+};
 
 Player.prototype.handleInput = function (pressedKey) {
     if ((player.status == true) && (player.success == false) && player.dead == false){
@@ -249,4 +250,10 @@ newGameDiv.appendChild(newGameButton);
 document.body.appendChild(newGameDiv);
 
 // it seems this becomes the window when calling player.reset from event listener  ?????
-newGameButton.addEventListener('click', player.reset.call(player));
+// newGameButton.addEventListener('click', player.reset.call(player));
+
+// used this based on this
+// http://stackoverflow.com/questions/21298918/is-it-possible-to-call-a-class-method-with-addeventlistener#21299126
+newGameButton.addEventListener('click', function () {
+    player.reset();
+});
