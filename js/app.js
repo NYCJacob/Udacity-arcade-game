@@ -26,14 +26,14 @@ function scoreBoard(gameEvent) {
             ctx.font = "24px Helvetica";
             ctx.textAlign = "center";
             ctx.fillStyle = "green";
-            ctx.fillText("SUCCESS!!!", 250, 50);
+            ctx.fillText("SUCCESS!!!", 250, 45);
             break;
         // collision message
         case -1:
             ctx.font = "24px Helvetica";
             ctx.textAlign = "center";
             ctx.fillStyle = "red";
-            ctx.fillText("COLLISION!!!", 250, 50);
+            ctx.fillText("COLLISION!!!", 250, 45);
             break;
         // game over message
         case 0:
@@ -42,8 +42,9 @@ function scoreBoard(gameEvent) {
             ctx.fillStyle = "red";
             ctx.strokeStyle = "black";
             clearMessage();
-            ctx.fillText("GAME OVER!!!", 200, 50);
-            ctx.strokeText('GAME OVER!!!', 200, 200 );
+            ctx.fillText("GAME OVER!!!", 250, 45);
+            //  I left this here for trying to get text on top of game board
+            ctx.strokeText('GAME OVER!!!', 250, 200 );
             break;
     }
     // clear message after shortly after display
@@ -109,7 +110,7 @@ Enemy.prototype.render = function() {
 
 // Player starting values
 // player start coor set in global var because needed in multiple functions/methods
-var startCoor = [200, 500];
+var startCoor = [220, 500];
 var startPoints = 0;
 var maxLives =  2;
 var startDeaths = 0;
@@ -223,11 +224,16 @@ Player.prototype.render = function () {
 // Place the player object in a variable called player
 var player = new Player();
 
-var enemy01 = new Enemy();
-var enemy02 = new Enemy();
-var enemy03 = new Enemy();
-
-var allEnemies = [enemy01, enemy02, enemy03];
+// set number of enemies, could be used for a game levels feature also
+var Enemies = 5;
+var allEnemies = [];
+for (var i = 0; i < Enemies; i++) {
+    allEnemies.push(new Enemy());
+}
+// var enemy01 = new Enemy();
+// var enemy02 = new Enemy();
+// var enemy03 = new Enemy();
+// var allEnemies = [enemy01, enemy02, enemy03];
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
