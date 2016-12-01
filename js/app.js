@@ -251,6 +251,10 @@ Player.prototype.update = function (dt) {
         scoreBoard(2);
         // reset to prevent multiple bonuses
         player.hitGem = false;
+        // make new gem
+        activeGem = setTimeout(function () {
+            activeGem.getActive();
+        }, 5000);
     }
 
 };
@@ -277,7 +281,7 @@ var Gem = function (color) {
     this.y = randomInt(this.minY, this.maxY);
     // there are three gems but only one at a time selected randomly at random intervals
     // in render and update methods
-    this.activeGem =  allGems[randomInt(0, 2)];
+    //this.activeGem =  allGems[randomInt(0, 2)];
 };
 
 Gem.prototype.update = function () {
@@ -295,11 +299,14 @@ Gem.prototype.render = function() {
 
 var gems = ['Orange', 'Green', 'Blue'];
 var allGems = [];
-// for (var x = 0; x < gems.length; x++) {
-//     allGems.push(new Gem(gems[x]));
-// }
+for (var x = 0; x < gems.length; x++) {
+    allGems.push(new Gem(gems[x]));
+}
+Gem.prototype.getActive =  function () {
+    return new Gem(gems[randomInt(0, 2)]);
+};
 
-// create gem random color selector
+// instantiate first gem random color selector
 var activeGem = new Gem(gems[randomInt(0, 2)]);
 
 // Now instantiate your objects.
@@ -308,7 +315,7 @@ var activeGem = new Gem(gems[randomInt(0, 2)]);
 var player = new Player();
 
 // set number of enemies, could be used for a game levels feature also
-var Enemies = 5;
+var Enemies = 3;
 var allEnemies = [];
 for (var i = 0; i < Enemies; i++) {
     allEnemies.push(new Enemy());
