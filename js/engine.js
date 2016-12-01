@@ -177,8 +177,8 @@ var Engine = (function(global) {
 
             // var firstGem = allGems[0];
             // firstGem.render();
-            allGems.activeGem.render();
-
+            // allGems.activeGem.render();
+            activeGem.render();
     }
 
     /* This function does nothing but it could have been a good place to

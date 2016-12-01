@@ -86,7 +86,16 @@ function checkCollisions() {
     //         gem.x = 610;
     //     }  // end if
     // })
-
+    // check gems collisions
+    if (activeGem.x < player.x + 60 &&
+        activeGem.x + 60 > player.x &&
+        activeGem.y < player.y + 60 &&
+        activeGem.y + 60 > player.y) {
+        console.log("player - Gem COLLISION!!!");
+        player.hitGem = true;
+        // make gem disappear off screen
+        activeGem.x = 610;
+    }  // end if
 
 }  // end checkCollisions()
 
@@ -275,9 +284,9 @@ Gem.prototype.update = function () {
 
 };
 
-Gem.prototype.getGem = function () {
-    allGems[randomInt(0, 2)];
-};
+// Gem.prototype.getGem = function () {
+//     allGems[randomInt(0, 2)];
+// };
 
 // Draw the ge, on the screen
 Gem.prototype.render = function() {
@@ -286,9 +295,12 @@ Gem.prototype.render = function() {
 
 var gems = ['Orange', 'Green', 'Blue'];
 var allGems = [];
-for (var x = 0; x < gems.length; x++) {
-    allGems.push(new Gem(gems[x]));
-}
+// for (var x = 0; x < gems.length; x++) {
+//     allGems.push(new Gem(gems[x]));
+// }
+
+// create gem random color selector
+var activeGem = new Gem(gems[randomInt(0, 2)]);
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
@@ -311,7 +323,6 @@ document.addEventListener('keyup', function(e) {
         39: 'right',
         40: 'down'
     };
-
     player.handleInput(allowedKeys[e.keyCode]);
 });
 
