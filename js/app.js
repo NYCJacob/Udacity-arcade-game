@@ -75,17 +75,19 @@ function checkCollisions() {
     });
 
     // check gems collisions
-    allGems.forEach(function (gem) {
-        if (gem.x < player.x + 60 &&
-            gem.x + 60 > player.x &&
-            gem.y < player.y + 60 &&
-            gem.y + 60 > player.y) {
-            console.log("player - Gem COLLISION!!!");
-            player.hitGem = true;
-            // make gem disappear off screen
-            gem.x = 610;
-        }  // end if
-    })
+    // allGems.forEach(function (gem) {
+    //     if (gem.x < player.x + 60 &&
+    //         gem.x + 60 > player.x &&
+    //         gem.y < player.y + 60 &&
+    //         gem.y + 60 > player.y) {
+    //         console.log("player - Gem COLLISION!!!");
+    //         player.hitGem = true;
+    //         // make gem disappear off screen
+    //         gem.x = 610;
+    //     }  // end if
+    // })
+
+
 }  // end checkCollisions()
 
 
@@ -264,10 +266,17 @@ var Gem = function (color) {
     this.maxY = 330;
     this.x = randomInt(this.minX, this.maxX);
     this.y = randomInt(this.minY, this.maxY);
+    // there are three gems but only one at a time selected randomly at random intervals
+    // in render and update methods
+    this.activeGem =  allGems[randomInt(0, 2)];
 };
 
 Gem.prototype.update = function () {
 
+};
+
+Gem.prototype.getGem = function () {
+    allGems[randomInt(0, 2)];
 };
 
 // Draw the ge, on the screen
@@ -292,10 +301,6 @@ var allEnemies = [];
 for (var i = 0; i < Enemies; i++) {
     allEnemies.push(new Enemy());
 }
-// var enemy01 = new Enemy();
-// var enemy02 = new Enemy();
-// var enemy03 = new Enemy();
-// var allEnemies = [enemy01, enemy02, enemy03];
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
