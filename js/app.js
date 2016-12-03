@@ -1,11 +1,27 @@
-// game class for these global functions ???
-
 
 // global random int generator
 function randomInt(min, max) {
     var rand = Math.random() * (max - min + 1);
     rand = Math.floor(rand) + min;
     return rand;
+}
+
+// timer display function
+function timer() {
+    //  starting countdown time
+    var seconds = 60;
+    var minutes = 2;
+    var timerDiv = document.getElementById('timer');
+    timerDiv.innerHTML = '';
+    setInterval(function(){
+        seconds -= 1;
+        if (seconds == 0) {
+            minutes -= 1;
+            seconds = 0;
+        }
+        console.log('minutes: ' + minutes + "  seconds: " + seconds);
+        timerDiv.innerHTML = '<p>Minutes: ' + minutes + ' Seconds: ' + seconds + '</p>';
+    }, 1000);
 }
 
 //  created this function to allow message to remain on
@@ -335,24 +351,17 @@ for (var i = 0; i < Enemies; i++) {
     allEnemies.push(new Enemy());
 }
 
-// This listens for key presses and sends the keys to your
-// Player.handleInput() method. You don't need to modify this.
-document.addEventListener('keyup', function(e) {
-    var allowedKeys = {
-        37: 'left',
-        38: 'up',
-        39: 'right',
-        40: 'down'
-    };
-    player.handleInput(allowedKeys[e.keyCode]);
-});
-
-// new game button
+// start and new game buttons
 newGameDiv = document.createElement('div');
 newGameButton = document.createElement('button');
 newGameButton.innerHTML = 'New Game';
 newGameDiv.appendChild(newGameButton);
-document.body.appendChild(newGameDiv);
+//document.body.appendChild(newGameDiv);
+startDiv = document.getElementById('start');
+startGameButton = document.createElement('button');
+startGameButton.innerHTML = 'Start Game';
+startDiv.appendChild(startGameButton);
+startDiv.appendChild(newGameDiv);
 
 // it seems this becomes the window when calling player.reset from event listener  ?????
 // newGameButton.addEventListener('click', player.reset.call(player));
@@ -361,4 +370,26 @@ document.body.appendChild(newGameDiv);
 // http://stackoverflow.com/questions/21298918/is-it-possible-to-call-a-class-method-with-addeventlistener#21299126
 newGameButton.addEventListener('click', function () {
     player.reset();
+    // stop current timer
+    clearInterval(timer());
+    // start new timer
+    timer();
 });
+
+startGameButton.addEventListener('click', function () {
+    timer();
+
+// This listens for key presses and sends the keys to your
+// Player.handleInput() method. You don't need to modify this.
+    document.addEventListener('keyup', function(e) {
+        var allowedKeys = {
+            37: 'left',
+            38: 'up',
+            39: 'right',
+            40: 'down'
+        };
+        player.handleInput(allowedKeys[e.keyCode]);
+    });
+
+});
+
