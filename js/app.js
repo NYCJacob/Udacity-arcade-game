@@ -21,7 +21,8 @@ function scoreBoard(gameEvent) {
     var scoreDiv = document.getElementById('score');
     scoreDiv.innerHTML = '';
     scoreDiv.innerHTML = '<p>Score: ' + player.points;
-
+    // clear old message in case still displayed
+    clearMessage();
     switch (gameEvent) {
         // success message
         case 1:
@@ -252,9 +253,16 @@ Player.prototype.update = function (dt) {
         // reset to prevent multiple bonuses
         player.hitGem = false;
         // make new gem
-        activeGem = setTimeout(function () {
-            activeGem.getActive();
+        // activeGem = setTimeout(function () {
+        //     activeGem.getActive();
+        // }, 5000);
+        // setTimeout(function () {
+        //     activeGem.getActive();
+        // }, 5000);
+        setTimeout(function () {
+            activeGem.getAnother();
         }, 5000);
+
     }
 
 };
@@ -298,12 +306,18 @@ Gem.prototype.render = function() {
 };
 
 var gems = ['Orange', 'Green', 'Blue'];
-var allGems = [];
-for (var x = 0; x < gems.length; x++) {
-    allGems.push(new Gem(gems[x]));
-}
+// var allGems = [];
+// for (var x = 0; x < gems.length; x++) {
+//     allGems.push(new Gem(gems[x]));
+// }
 Gem.prototype.getActive =  function () {
     return new Gem(gems[randomInt(0, 2)]);
+};
+
+Gem.prototype.getAnother = function () {
+    this.sprite = 'images/Gem-' + gems[randomInt(0, 2)] + '-sm.png';
+    this.x = randomInt(this.minX, this.maxX);
+    this.y = randomInt(this.minY, this.maxY);
 };
 
 // instantiate first gem random color selector
