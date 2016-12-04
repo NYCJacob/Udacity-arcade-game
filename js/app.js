@@ -1,3 +1,9 @@
+// game global variables
+var seconds = 60;
+var minutes = 2;
+var clearTimer = null;
+var timerDiv = document.getElementById('timer');
+
 
 // global random int generator
 function randomInt(min, max) {
@@ -6,22 +12,32 @@ function randomInt(min, max) {
     return rand;
 }
 
-// timer display function
-function timer() {
-    //  starting countdown time
-    var seconds = 60;
-    var minutes = 2;
-    var timerDiv = document.getElementById('timer');
-    timerDiv.innerHTML = '';
-    setInterval(function(){
+function gameTimer(){
         seconds -= 1;
         if (seconds == 0) {
             minutes -= 1;
-            seconds = 0;
+            seconds = 59;
         }
-        console.log('minutes: ' + minutes + "  seconds: " + seconds);
+        // console.log('minutes: ' + minutes + "  seconds: " + seconds);
         timerDiv.innerHTML = '<p>Minutes: ' + minutes + ' Seconds: ' + seconds + '</p>';
-    }, 1000);
+}
+
+// timer display function
+function timer() {
+        //  starting countdown time
+        var seconds = 60;
+        var minutes = 2;
+        var timerDiv = document.getElementById('timer');
+        timerDiv.innerHTML = '';
+        setInterval(function(){
+            seconds -= 1;
+            if (seconds == 0) {
+                minutes -= 1;
+                seconds = 0;
+            }
+            // console.log('minutes: ' + minutes + "  seconds: " + seconds);
+            timerDiv.innerHTML = '<p>Minutes: ' + minutes + ' Seconds: ' + seconds + '</p>';
+        }, 1000);
 }
 
 //  created this function to allow message to remain on
@@ -357,11 +373,19 @@ newGameButton = document.createElement('button');
 newGameButton.innerHTML = 'New Game';
 newGameDiv.appendChild(newGameButton);
 //document.body.appendChild(newGameDiv);
-startDiv = document.getElementById('start');
+startDiv = document.createElement('div');
 startGameButton = document.createElement('button');
 startGameButton.innerHTML = 'Start Game';
 startDiv.appendChild(startGameButton);
-startDiv.appendChild(newGameDiv);
+var messageDiv = document.getElementById('message-board');
+document.getElementById('message-board').prepend(newGameDiv);
+document.getElementById('message-board').prepend(startDiv);
+//
+// messageDiv.appendChild(newGameDiv);
+//messageDiv.appendChild(startDiv);
+
+
+
 
 // it seems this becomes the window when calling player.reset from event listener  ?????
 // newGameButton.addEventListener('click', player.reset.call(player));
@@ -371,14 +395,15 @@ startDiv.appendChild(newGameDiv);
 newGameButton.addEventListener('click', function () {
     player.reset();
     // stop current timer
-    clearInterval(timer());
+    clearInterval(clearTimer);
     // start new timer
+    timerDiv.innerHTML = '';
     timer();
 });
 
 startGameButton.addEventListener('click', function () {
-    timer();
-
+    timerDiv.innerHTML = '';
+    clearTimer = setInterval(timer(), 1000);
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
     document.addEventListener('keyup', function(e) {
