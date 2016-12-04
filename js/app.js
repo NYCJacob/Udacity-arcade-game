@@ -1,6 +1,9 @@
 // game global variables
-var seconds = 60;
-var minutes = 2;
+var maxSeconds = 60;
+var maxMinutes = 2;
+// timer function global variable
+var minutes = maxMinutes;
+var seconds = maxSeconds;
 var clearTimer = null;
 var timerDiv = document.getElementById('timer');
 
@@ -18,7 +21,7 @@ function gameTimer(){
             minutes -= 1;
             seconds = 59;
         }
-        // console.log('minutes: ' + minutes + "  seconds: " + seconds);
+        //console.log('minutes: ' + minutes + "  seconds: " + seconds);
         timerDiv.innerHTML = '<p>Minutes: ' + minutes + ' Seconds: ' + seconds + '</p>';
 }
 
@@ -398,7 +401,10 @@ newGameButton.addEventListener('click', function () {
     clearInterval(clearTimer);
     // start new timer
     timerDiv.innerHTML = '';
-    gameTimer();
+    // reset time count
+    seconds = maxSeconds;
+    minutes = maxMinutes;
+    clearTimer = setInterval(gameTimer, 1000);
 });
 
 startGameButton.addEventListener('click', function () {
