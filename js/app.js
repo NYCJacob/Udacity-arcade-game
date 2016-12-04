@@ -23,22 +23,22 @@ function gameTimer(){
 }
 
 // timer display function
-function timer() {
-        //  starting countdown time
-        var seconds = 60;
-        var minutes = 2;
-        var timerDiv = document.getElementById('timer');
-        timerDiv.innerHTML = '';
-        setInterval(function(){
-            seconds -= 1;
-            if (seconds == 0) {
-                minutes -= 1;
-                seconds = 0;
-            }
-            // console.log('minutes: ' + minutes + "  seconds: " + seconds);
-            timerDiv.innerHTML = '<p>Minutes: ' + minutes + ' Seconds: ' + seconds + '</p>';
-        }, 1000);
-}
+// function timer() {
+//         //  starting countdown time
+//         var seconds = 60;
+//         var minutes = 2;
+//         var timerDiv = document.getElementById('timer');
+//         timerDiv.innerHTML = '';
+//         setInterval(function(){
+//             seconds -= 1;
+//             if (seconds == 0) {
+//                 minutes -= 1;
+//                 seconds = 0;
+//             }
+//             // console.log('minutes: ' + minutes + "  seconds: " + seconds);
+//             timerDiv.innerHTML = '<p>Minutes: ' + minutes + ' Seconds: ' + seconds + '</p>';
+//         }, 1000);
+// }
 
 //  created this function to allow message to remain on
 function clearMessage() {
@@ -398,12 +398,12 @@ newGameButton.addEventListener('click', function () {
     clearInterval(clearTimer);
     // start new timer
     timerDiv.innerHTML = '';
-    timer();
+    gameTimer();
 });
 
 startGameButton.addEventListener('click', function () {
     timerDiv.innerHTML = '';
-    clearTimer = setInterval(timer(), 1000);
+    clearTimer = setInterval(gameTimer, 1000);
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
     document.addEventListener('keyup', function(e) {
