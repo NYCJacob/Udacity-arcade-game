@@ -1,6 +1,6 @@
 // game global variables
 var maxSeconds = 60;
-var maxMinutes = 2;
+var maxMinutes = 1;
 // timer function global variable
 var minutes = maxMinutes;
 var seconds = maxSeconds;
@@ -17,12 +17,20 @@ function randomInt(min, max) {
 
 function gameTimer(){
         seconds -= 1;
-        if (seconds == 0) {
-            minutes -= 1;
-            seconds = 59;
-        }
+    // check if time is up
+    if (seconds === 0 && minutes === 0) {
+        // set player dead so player movement stops in key up listener condition
+        player.dead = true;
+        timerDiv.innerHTML = '';
+        scoreBoard(0);
+    } else if (seconds == 0) {
+        // decrement minute reset seconds
+        minutes -= 1;
+        seconds = 60;
+    } else if (!player.dead) {   // update time only if player alive prevents - 0:59
         //console.log('minutes: ' + minutes + "  seconds: " + seconds);
         timerDiv.innerHTML = '<p>Minutes: ' + minutes + ' Seconds: ' + seconds + '</p>';
+    }
 }
 
 // timer display function
@@ -80,6 +88,7 @@ function scoreBoard(gameEvent) {
             ctx.fillStyle = "red";
             ctx.strokeStyle = "black";
             clearMessage();
+            clearInterval(clearTimer);
             ctx.fillText("GAME OVER!!!", 250, 45);
             //  I left this here for trying to get text on top of game board
             ctx.strokeText('GAME OVER!!!', 250, 200 );
@@ -110,18 +119,6 @@ function checkCollisions() {
         }  // end if
     });
 
-    // check gems collisions
-    // allGems.forEach(function (gem) {
-    //     if (gem.x < player.x + 60 &&
-    //         gem.x + 60 > player.x &&
-    //         gem.y < player.y + 60 &&
-    //         gem.y + 60 > player.y) {
-    //         console.log("player - Gem COLLISION!!!");
-    //         player.hitGem = true;
-    //         // make gem disappear off screen
-    //         gem.x = 610;
-    //     }  // end if
-    // })
     // check gems collisions
     if (activeGem.x < player.x + 60 &&
         activeGem.x + 60 > player.x &&
