@@ -404,7 +404,7 @@ newGameButton.addEventListener('click', function () {
     clearTimer = setInterval(gameTimer, 1000);
 });
 
-startGameButton.addEventListener('click', function () {
+function startGame() {
     timerDiv.innerHTML = '';
     clearTimer = setInterval(gameTimer, 1000);
 // This listens for key presses and sends the keys to your
@@ -418,6 +418,9 @@ startGameButton.addEventListener('click', function () {
         };
         player.handleInput(allowedKeys[e.keyCode]);
     });
+    // prevent start game button from being used again
+    startGameButton.removeEventListener('click', startGame);
+}
 
-});
+startGameButton.addEventListener('click', startGame);
 
