@@ -1,3 +1,15 @@
 body {
     text-align: center;
 }
+
+button {
+    width: 505px;
+}
+
+button:hover {
+    border-color: green;
+}
+
+#timer {
+    height: 2em;
+}

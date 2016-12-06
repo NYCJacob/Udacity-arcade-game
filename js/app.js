@@ -29,8 +29,9 @@ function gameTimer(){
         seconds = 60;
     } else if (!player.dead) {   // update time only if player alive prevents - 0:59
         //console.log('minutes: ' + minutes + "  seconds: " + seconds);
-        timerDiv.innerHTML = '<p>Minutes: ' + minutes + ' Seconds: ' + seconds + '</p>';
+        timerDiv.innerHTML = '<h2>Minutes: ' + minutes + ' Seconds: ' + seconds + '</h2>';
     }
+
 }
 
 // timer display function
@@ -60,10 +61,10 @@ function clearMessage() {
 function scoreBoard(gameEvent) {
     var livesDiv = document.getElementById('lives');
     livesDiv.innerHTML = '';
-    livesDiv.innerHTML = '<p>Lives Remaining: ' + (player.maxLives - player.deaths) + '</p>';
+    livesDiv.innerHTML = '<h2>Lives Remaining: ' + (player.maxLives - player.deaths) + '</h2>';
     var scoreDiv = document.getElementById('score');
     scoreDiv.innerHTML = '';
-    scoreDiv.innerHTML = '<p>Score: ' + player.points;
+    scoreDiv.innerHTML = '<h2>Score: ' + player.points + '</h2>';
     // clear old message in case still displayed
     clearMessage();
     switch (gameEvent) {
@@ -377,6 +378,7 @@ startDiv = document.createElement('div');
 startGameButton = document.createElement('button');
 startGameButton.innerHTML = 'Start Game';
 startDiv.appendChild(startGameButton);
+
 var messageDiv = document.getElementById('message-board');
 document.getElementById('message-board').prepend(newGameDiv);
 document.getElementById('message-board').prepend(startDiv);
@@ -385,14 +387,11 @@ document.getElementById('message-board').prepend(startDiv);
 //messageDiv.appendChild(startDiv);
 
 
+function newGameListener() {
+    newGameButton.addEventListener('click', newGame);
+}
 
-
-// it seems this becomes the window when calling player.reset from event listener  ?????
-// newGameButton.addEventListener('click', player.reset.call(player));
-
-// used this based on this
-// http://stackoverflow.com/questions/21298918/is-it-possible-to-call-a-class-method-with-addeventlistener#21299126
-newGameButton.addEventListener('click', function () {
+function newGame() {
     player.reset();
     // stop current timer
     clearInterval(clearTimer);
@@ -402,7 +401,9 @@ newGameButton.addEventListener('click', function () {
     seconds = maxSeconds;
     minutes = maxMinutes;
     clearTimer = setInterval(gameTimer, 1000);
-});
+}
+
+
 
 function startGame() {
     timerDiv.innerHTML = '';
@@ -420,6 +421,8 @@ function startGame() {
     });
     // prevent start game button from being used again
     startGameButton.removeEventListener('click', startGame);
+    // add new game click listener
+    newGameListener();
 }
 
 startGameButton.addEventListener('click', startGame);
