@@ -4,6 +4,9 @@
 // game global variables
 var MAXSECONDS = 60;
 var MAXMINUTES = 1;
+// speed boundaries to compute bug random speed
+var MINSPEED = 50;
+var MAXSPEED = 80;
 // timer function global variable
 var minutes = MAXMINUTES;
 var seconds = MAXSECONDS;
@@ -164,17 +167,26 @@ var GameItem = function (sprite) {
     this.maxX = 505;
     this.minY = 100;
     this.maxY = 330;
-    this.getRand = function (min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
+    //  this didn't work
+    // this.getRand = function (min, max) {
+    //     return Math.floor(Math.random() * (max - min + 1)) + min;
+    // }
 };
+
+// this didn't work  - 'not a function'
+// GameItem.prototype.getRand = function (min, max) {
+//             return Math.floor(Math.random() * (max - min + 1)) + min;
+//         };
+
+
 
 var Enemy2 = function (sprite) {
     GameItem.call(this, sprite);
 };
 Enemy2.prototype = Object.create(GameItem.prototype);
 Enemy2.prototype.constructor = Enemy2;
-Enemy2.prototype.speed = this.getRand(50, 80);
+// Enemy2.prototype.speed = GameItem.getRand(50, 80);
+Enemy2.prototype.speed = Math.floor(Math.random() * (MAXSPEED - MINSPEED + 1)) + MINSPEED;
 // var bug = new Enemy2('images/enemy-bug-cut.png');
 
 // Update the enemy's position, required method for game
@@ -184,7 +196,7 @@ Enemy2.prototype.update = function(dt) {
     //console.log(this + this.x + this.y);
     if (this.x >= 500) {
         this.x = -20;
-        this.y = randomInt(this.minY, this.maxY);
+        this.y = Math.floor(Math.random() * (this.maxY - this.minY + 1)) + this.minY;
     } else {
         this.x += this.speed * dt;
     }
@@ -209,7 +221,7 @@ for (var i = 0; i < Enemies2; i++) {
  */
 var Enemy = function() {
     // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
+    // a helper we've provided to easily load image
     this.sprite = 'images/enemy-bug-cut.png';
     // random starting position of enemy
     // canvas dimensions are set at width = 505; height = 606
@@ -436,7 +448,7 @@ var player = new Player();
 // set number of enemies, could be used for a game levels feature also
 var Enemies = 3;
 var allEnemies = [];
-for (var i = 0; i < Enemies; i++) {
+for (var x = 0; x < Enemies; x++) {
     allEnemies.push(new Enemy());
 }
 

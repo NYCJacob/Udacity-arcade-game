@@ -95,7 +95,7 @@ var Engine = (function(global) {
     function updateEntities(dt) {
         // condition checks for result of checkCollisions before updated anime loop
         if ((player.status == true) && (player.dead == false)) {
-            allEnemies.forEach(function(enemy) {
+            allEnemies2.forEach(function(enemy) {
                 enemy.update(dt);
             });
         }
