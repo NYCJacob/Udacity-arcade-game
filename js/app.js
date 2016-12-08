@@ -10,6 +10,13 @@ var seconds = MAXSECONDS;
 var clearTimer = null;
 var timerDiv = document.getElementById('timer');
 
+/*  Game utility functions
+    * gameTimer() controls the timer display
+    * clearMessage() clears the message at the top part of the canvas
+    * scoreBoard(gameEvent) displays lives remaining and points based on event code parameter
+    * checkCollisions() checks for player enemy/gem contact
+ */
+
 
 // global random int generator
 function randomInt(min, max) {
@@ -37,23 +44,6 @@ function gameTimer(){
 
 }
 
-// timer display function
-// function timer() {
-//         //  starting countdown time
-//         var seconds = 60;
-//         var minutes = 2;
-//         var timerDiv = document.getElementById('timer');
-//         timerDiv.innerHTML = '';
-//         setInterval(function(){
-//             seconds -= 1;
-//             if (seconds == 0) {
-//                 minutes -= 1;
-//                 seconds = 0;
-//             }
-//             // console.log('minutes: ' + minutes + "  seconds: " + seconds);
-//             timerDiv.innerHTML = '<p>Minutes: ' + minutes + ' Seconds: ' + seconds + '</p>';
-//         }, 1000);
-// }
 
 //  created this function to allow message to remain on
 function clearMessage() {
@@ -136,8 +126,87 @@ function checkCollisions() {
 
 }  // end checkCollisions()
 
+/* class objects
+    *   Enemy
+    *   Player
+    *   Gem
+*/
 
-// Enemies our player must avoid
+/* game items superclass
+    * GameItem
+ */
+//
+// var GameItem = {
+//     x : 0,
+//     y : 0,
+//     minX : 0,
+//     maxX : 505,
+//     minY : 100,
+//     maxY : 330,
+//     sprite : '',
+//     getRand : function (min, max) {
+//         return Math.floor(Math.random() * (max - min + 1)) + min;
+//     }
+// };
+//
+// // this is using GameItem superclass
+// var Enemy2 = Object.create(GameItem);
+// Enemy2.sprite = 'images/enemy-bug-cut.png';
+
+/* game superclass using function constructor
+    * sprite is path string to icon file
+ */
+var GameItem = function (sprite) {
+    this.sprite = sprite;
+    this.x = 0;
+    this.y = 0;
+    this.minX = 0;
+    this.maxX = 505;
+    this.minY = 100;
+    this.maxY = 330;
+    this.getRand = function (min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+};
+
+var Enemy2 = function (sprite) {
+    GameItem.call(this, sprite);
+};
+Enemy2.prototype = Object.create(GameItem.prototype);
+Enemy2.prototype.constructor = Enemy2;
+Enemy2.prototype.speed = this.getRand(50, 80);
+// var bug = new Enemy2('images/enemy-bug-cut.png');
+
+// Update the enemy's position, required method for game
+// Parameter: dt, a time delta between ticks
+Enemy2.prototype.update = function(dt) {
+    // You should multiply any movement by the dt parameter
+    //console.log(this + this.x + this.y);
+    if (this.x >= 500) {
+        this.x = -20;
+        this.y = randomInt(this.minY, this.maxY);
+    } else {
+        this.x += this.speed * dt;
+    }
+};
+// Draw the enemy on the screen, required method for game
+Enemy2.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+// set number of enemies, could be used for a game levels feature also
+var Enemies2 = 3;
+var allEnemies2 = [];
+for (var i = 0; i < Enemies2; i++) {
+    allEnemies2.push(new Enemy2('images/enemy-bug-cut.png'));
+}
+
+
+
+
+/* Enemy class without a superclass section below
+    ***************************************************************
+ */
 var Enemy = function() {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
