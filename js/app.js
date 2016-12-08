@@ -1,9 +1,12 @@
+// use strict
+"use strict";
+
 // game global variables
-var maxSeconds = 60;
-var maxMinutes = 1;
+var MAXSECONDS = 60;
+var MAXMINUTES = 1;
 // timer function global variable
-var minutes = maxMinutes;
-var seconds = maxSeconds;
+var minutes = MAXMINUTES;
+var seconds = MAXSECONDS;
 var clearTimer = null;
 var timerDiv = document.getElementById('timer');
 
@@ -369,13 +372,13 @@ for (var i = 0; i < Enemies; i++) {
 }
 
 // start and new game buttons
-newGameDiv = document.createElement('div');
-newGameButton = document.createElement('button');
+var newGameDiv = document.createElement('div');
+var newGameButton = document.createElement('button');
 newGameButton.innerHTML = 'New Game';
 newGameDiv.appendChild(newGameButton);
 //document.body.appendChild(newGameDiv);
-startDiv = document.createElement('div');
-startGameButton = document.createElement('button');
+var startDiv = document.createElement('div');
+var startGameButton = document.createElement('button');
 startGameButton.innerHTML = 'Start Game';
 startDiv.appendChild(startGameButton);
 
@@ -398,8 +401,8 @@ function newGame() {
     // start new timer
     timerDiv.innerHTML = '';
     // reset time count
-    seconds = maxSeconds;
-    minutes = maxMinutes;
+    seconds = MAXSECONDS;
+    minutes = MAXMINUTES;
     clearTimer = setInterval(gameTimer, 1000);
 }
 
