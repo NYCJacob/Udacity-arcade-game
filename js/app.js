@@ -6,7 +6,7 @@ var MAXSECONDS = 60;
 var MAXMINUTES = 1;
 // speed boundaries to compute bug random speed
 var MINSPEED = 50;
-var MAXSPEED = 80;
+var MAXSPEED = 90;
 // timer function global variable
 var minutes = MAXMINUTES;
 var seconds = MAXSECONDS;
@@ -136,10 +136,10 @@ function checkCollisions() {
 */
 
 /* game items superclass
-    * GameItem
+    * EnemyItem
  */
 //
-// var GameItem = {
+// var EnemyItem = {
 //     x : 0,
 //     y : 0,
 //     minX : 0,
@@ -152,51 +152,80 @@ function checkCollisions() {
 //     }
 // };
 //
-// // this is using GameItem superclass
-// var Enemy2 = Object.create(GameItem);
+// // this is using EnemyItem superclass
+// var Enemy2 = Object.create(EnemyItem);
 // Enemy2.sprite = 'images/enemy-bug-cut.png';
 
 /* game superclass using function constructor
     * sprite is path string to icon file
  */
-var GameItem = function (sprite) {
-    this.sprite = sprite;
+
+// TODO: add speed
+var GameItem = function () {
+    this.sprite = '';
     this.x = 0;
     this.y = 0;
-    this.minX = 0;
-    this.maxX = 505;
-    this.minY = 100;
-    this.maxY = 330;
+    this.speed = 1;
+};
+
+
+var EnemyItem = function (sprite) {
+    GameItem.call(this);
+    var minX = 0;
+    var maxX = 505;
+    var minY = 100;
+    var maxY = 330;
+    this.sprite = sprite;
+    this.x = Math.floor(Math.random() * (maxX - minX + 1)) + minX;
+    this.y = Math.floor(Math.random() * (maxY - minY + 1)) + minY;
+    this.speed = Math.floor(Math.random() * (MAXSPEED - MINSPEED + 1)) + MINSPEED;
+    // this.minX = 0;
+    // this.maxX = 505;
+    // this.minY = 100;
+    // this.maxY = 330;
+
     //  this didn't work
     // this.getRand = function (min, max) {
     //     return Math.floor(Math.random() * (max - min + 1)) + min;
     // }
+
+    /*
+        @getBounds returns a simple array of min/max x/y coordinates for class x/y calculations
+     */
+    this.getBounds = function () {          // this did not work when put in .prototype
+        return [minX, maxX, minY, maxY];
+    }
+
 };
 
 // this didn't work  - 'not a function'
-// GameItem.prototype.getRand = function (min, max) {
+// EnemyItem.prototype.getRand = function (min, max) {
 //             return Math.floor(Math.random() * (max - min + 1)) + min;
 //         };
 
+EnemyItem.prototype = Object.create(GameItem.prototype);
+EnemyItem.prototype.constructor = EnemyItem;
 
 
 var Enemy2 = function (sprite) {
-    GameItem.call(this, sprite);
+    EnemyItem.call(this, sprite);
+    // this is giving different speeds moved from prototype where they all got same speed
+    // this.speed = Math.floor(Math.random() * (MAXSPEED - MINSPEED + 1)) + MINSPEED;
 };
-Enemy2.prototype = Object.create(GameItem.prototype);
+Enemy2.prototype = Object.create(EnemyItem.prototype);
 Enemy2.prototype.constructor = Enemy2;
-// Enemy2.prototype.speed = GameItem.getRand(50, 80);
-Enemy2.prototype.speed = Math.floor(Math.random() * (MAXSPEED - MINSPEED + 1)) + MINSPEED;
+// Enemy2.prototype.speed = EnemyItem.getRand(50, 80);
+//      Enemy2.prototype.speed = Math.floor(Math.random() * (MAXSPEED - MINSPEED + 1)) + MINSPEED;
 // var bug = new Enemy2('images/enemy-bug-cut.png');
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 Enemy2.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
-    //console.log(this + this.x + this.y);
     if (this.x >= 500) {
         this.x = -20;
-        this.y = Math.floor(Math.random() * (this.maxY - this.minY + 1)) + this.minY;
+        // this.y = Math.floor(Math.random() * (maxY - minY + 1)) + minY;
+        this.y = Math.floor(Math.random() * (this.getBounds()[3] - this.getBounds()[2] + 1)) + this.getBounds()[2];
     } else {
         this.x += this.speed * dt;
     }
