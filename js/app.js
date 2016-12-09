@@ -207,20 +207,20 @@ EnemyItem.prototype = Object.create(GameItem.prototype);
 EnemyItem.prototype.constructor = EnemyItem;
 
 
-var Enemy2 = function (sprite) {
-    EnemyItem.call(this, sprite);
-    // this is giving different speeds moved from prototype where they all got same speed
-    // this.speed = Math.floor(Math.random() * (MAXSPEED - MINSPEED + 1)) + MINSPEED;
-};
-Enemy2.prototype = Object.create(EnemyItem.prototype);
-Enemy2.prototype.constructor = Enemy2;
+// var Enemy2 = function (sprite) {
+//     EnemyItem.call(this, sprite);
+//     // this is giving different speeds moved from prototype where they all got same speed
+//     // this.speed = Math.floor(Math.random() * (MAXSPEED - MINSPEED + 1)) + MINSPEED;
+// };
+// Enemy2.prototype = Object.create(EnemyItem.prototype);
+// Enemy2.prototype.constructor = Enemy2;
 // Enemy2.prototype.speed = EnemyItem.getRand(50, 80);
 //      Enemy2.prototype.speed = Math.floor(Math.random() * (MAXSPEED - MINSPEED + 1)) + MINSPEED;
 // var bug = new Enemy2('images/enemy-bug-cut.png');
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
-Enemy2.prototype.update = function(dt) {
+EnemyItem.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     if (this.x >= 500) {
         this.x = -20;
@@ -231,7 +231,7 @@ Enemy2.prototype.update = function(dt) {
     }
 };
 // Draw the enemy on the screen, required method for game
-Enemy2.prototype.render = function() {
+EnemyItem.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
@@ -239,7 +239,7 @@ Enemy2.prototype.render = function() {
 var Enemies2 = 3;
 var allEnemies2 = [];
 for (var i = 0; i < Enemies2; i++) {
-    allEnemies2.push(new Enemy2('images/enemy-bug-cut.png'));
+    allEnemies2.push(new EnemyItem('images/enemy-bug-cut.png'));
 }
 
 
