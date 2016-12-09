@@ -178,44 +178,18 @@ var EnemyItem = function (sprite) {
     this.x = Math.floor(Math.random() * (maxX - minX + 1)) + minX;
     this.y = Math.floor(Math.random() * (maxY - minY + 1)) + minY;
     this.speed = Math.floor(Math.random() * (MAXSPEED - MINSPEED + 1)) + MINSPEED;
-    // this.minX = 0;
-    // this.maxX = 505;
-    // this.minY = 100;
-    // this.maxY = 330;
-
-    //  this didn't work
-    // this.getRand = function (min, max) {
-    //     return Math.floor(Math.random() * (max - min + 1)) + min;
-    // }
-
     /*
         @getBounds returns a simple array of min/max x/y coordinates for class x/y calculations
      */
-    this.getBounds = function () {          // this did not work when put in .prototype
+    this.getBounds = function () {
         return [minX, maxX, minY, maxY];
     }
 
 };
 
-// this didn't work  - 'not a function'
-// EnemyItem.prototype.getRand = function (min, max) {
-//             return Math.floor(Math.random() * (max - min + 1)) + min;
-//         };
-
 EnemyItem.prototype = Object.create(GameItem.prototype);
 EnemyItem.prototype.constructor = EnemyItem;
 
-
-// var Enemy2 = function (sprite) {
-//     EnemyItem.call(this, sprite);
-//     // this is giving different speeds moved from prototype where they all got same speed
-//     // this.speed = Math.floor(Math.random() * (MAXSPEED - MINSPEED + 1)) + MINSPEED;
-// };
-// Enemy2.prototype = Object.create(EnemyItem.prototype);
-// Enemy2.prototype.constructor = Enemy2;
-// Enemy2.prototype.speed = EnemyItem.getRand(50, 80);
-//      Enemy2.prototype.speed = Math.floor(Math.random() * (MAXSPEED - MINSPEED + 1)) + MINSPEED;
-// var bug = new Enemy2('images/enemy-bug-cut.png');
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
@@ -242,52 +216,6 @@ for (var i = 0; i < Enemies; i++) {
 }
 
 
-
-
-/* Enemy class without a superclass section below
-    ***************************************************************
- */
-/*
-var Enemy = function() {
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load image
-    this.sprite = 'images/enemy-bug-cut.png';
-    // random starting position of enemy
-    // canvas dimensions are set at width = 505; height = 606
-    // Math.floor to get random int
-    this.minX = 0;
-    // canvas width = 505
-    this.maxX = 505;
-    // min needs to clear river at top therefore not 0
-    this.minY = 100;
-    // maxY needs to stay above player area  canvas height = 606
-    this.maxY = 330;
-    this.x = randomInt(this.minX, this.maxX);
-    this.y = randomInt(this.minY, this.maxY);
-    // give random speeds to bugs
-    this.speed = randomInt(50, 80);
-};
-
-
-// Update the enemy's position, required method for game
-// Parameter: dt, a time delta between ticks
-Enemy.prototype.update = function(dt) {
-    // You should multiply any movement by the dt parameter
-    //console.log(this + this.x + this.y);
-    if (this.x >= 500) {
-        this.x = -20;
-        this.y = randomInt(this.minY, this.maxY);
-    } else {
-        this.x += this.speed * dt;
-    }
-};
-
-// Draw the enemy on the screen, required method for game
-Enemy.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
- */
-
 // Player starting values
 // player start coor set in global var because needed in multiple functions/methods
 var startCoor = [220, 500];
@@ -300,7 +228,6 @@ var success = false;
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
-
 
 var Player = function() {
     GameItem.call(this);
@@ -449,13 +376,13 @@ Gem.prototype.render = function() {
 var gems = ['Orange', 'Green', 'Blue'];
 
 Gem.prototype.getAnother = function () {
-    this.sprite = 'images/Gem-' + gems[Math.floor(Math.random() * (gems.length - 0 + 1)) + 0] + '-sm.png';
+    this.sprite = 'images/Gem-' + gems[Math.floor(Math.random() * (gems.length + 1)) + 0] + '-sm.png';
     this.x = Math.floor(Math.random() * (this.maxX - this.minX + 1)) + this.minX;
     this.y = Math.floor(Math.random() * (this.maxY - this.minY + 1)) + this.minY;
 };
 
 // instantiate first gem random color selector
-var activeGem = new Gem(gems[Math.floor(Math.random() * (gems.length - 0 + 1)) + 0]);
+var activeGem = new Gem(gems[Math.floor(Math.random() * (gems.length + 1)) + 0]);
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
@@ -474,12 +401,9 @@ var startGameButton = document.createElement('button');
 startGameButton.innerHTML = 'Start Game';
 startDiv.appendChild(startGameButton);
 
-var messageDiv = document.getElementById('message-board');
+// var messageDiv = document.getElementById('message-board');
 document.getElementById('message-board').prepend(newGameDiv);
 document.getElementById('message-board').prepend(startDiv);
-//
-// messageDiv.appendChild(newGameDiv);
-//messageDiv.appendChild(startDiv);
 
 
 function newGameListener() {
