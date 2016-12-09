@@ -22,11 +22,11 @@ var timerDiv = document.getElementById('timer');
 
 
 // global random int generator
-function randomInt(min, max) {
-    var rand = Math.random() * (max - min + 1);
-    rand = Math.floor(rand) + min;
-    return rand;
-}
+// function randomInt(min, max) {
+//     var rand = Math.random() * (max - min + 1);
+//     rand = Math.floor(rand) + min;
+//     return rand;
+// }
 
 function gameTimer(){
         seconds -= 1;
@@ -235,10 +235,10 @@ EnemyItem.prototype.render = function() {
 };
 
 // set number of enemies, could be used for a game levels feature also
-var Enemies2 = 3;
-var allEnemies2 = [];
-for (var i = 0; i < Enemies2; i++) {
-    allEnemies2.push(new EnemyItem('images/enemy-bug-cut.png'));
+var Enemies = 3;
+var allEnemies = [];
+for (var i = 0; i < Enemies; i++) {
+    allEnemies.push(new EnemyItem('images/enemy-bug-cut.png'));
 }
 
 
@@ -247,6 +247,7 @@ for (var i = 0; i < Enemies2; i++) {
 /* Enemy class without a superclass section below
     ***************************************************************
  */
+/*
 var Enemy = function() {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load image
@@ -267,6 +268,7 @@ var Enemy = function() {
     this.speed = randomInt(50, 80);
 };
 
+
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
@@ -284,6 +286,7 @@ Enemy.prototype.update = function(dt) {
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
+ */
 
 // Player starting values
 // player start coor set in global var because needed in multiple functions/methods
@@ -329,7 +332,7 @@ Player.prototype.reset = function () {
 };
 
 Player.prototype.handleInput = function (pressedKey) {
-    if ((player.status == true) && (player.success == false) && player.dead == false){
+    if ((this.status == true) && (this.success == false) && this.dead == false){
         switch (pressedKey){
             case 'left':
                 this.x -= 50;
@@ -364,42 +367,42 @@ Player.prototype.handleInput = function (pressedKey) {
 Player.prototype.update = function (dt) {
     // player update code
     // player falls upon collision below river
-    if (player.status == false  && player.y < 500) {
-        player.y += 40 * dt;
+    if (this.status == false  && this.y < 500) {
+        this.y += 40 * dt;
         // update scoreBoard
         scoreBoard(-1);
     }
     // player gets another chance until all lives used
     // need to allow player to fall all the way back before condition execution
-    if (player.status == false && (player.y >= 500) && !(player.deaths == player.maxLives)){
+    if (this.status == false && (this.y >= 500) && !(this.deaths == this.maxLives)){
         // count collision upon return to avoid multiple collision count
-        player.deaths += 1;
+        this.deaths += 1;
         // call scoreboard again so death gets scored upon player return to bottom
         scoreBoard();
         //player gets another chance
-        player.status = true;
+        this.status = true;
     }
 
-    if (player.deaths == player.maxLives) {
-        player.dead = true;
+    if (this.deaths == this.maxLives) {
+        this.dead = true;
     }
 
     // player reached river
-    if (player.status == true && player.y <= 50){
+    if (this.status == true && this.y <= 50){
         // implement success feature
         console.log("player reached river player.update condition");
-        player.success = true;
-        player.points += 1;
+        this.success = true;
+        this.points += 1;
         scoreBoard(1);
     }
 
     // hit gem bonus points
-    if (player.hitGem === true) {
-        player.points += 5;
+    if (this.hitGem === true) {
+        this.points += 5;
         // 2 is bonus points switch case in scoreBoard()
         scoreBoard(2);
         // reset to prevent multiple bonuses
-        player.hitGem = false;
+        this.hitGem = false;
         // make new gem
         // activeGem = setTimeout(function () {
         //     activeGem.getActive();
@@ -433,22 +436,15 @@ var Gem = function (color) {
     this.minY = 100;
     // maxY needs to stay above player area  canvas height = 606
     this.maxY = 330;
-    this.x = randomInt(this.minX, this.maxX);
-    this.y = randomInt(this.minY, this.maxY);
+    this.x = Math.floor(Math.random() * (this.maxX - this.minX + 1)) + this.minX;
+    this.y = Math.floor(Math.random() * (this.maxY - this.minY + 1)) + this.minY;
     // there are three gems but only one at a time selected randomly at random intervals
     // in render and update methods
     //this.activeGem =  allGems[randomInt(0, 2)];
 };
 
-Gem.prototype.update = function () {
 
-};
-
-// Gem.prototype.getGem = function () {
-//     allGems[randomInt(0, 2)];
-// };
-
-// Draw the ge, on the screen
+// Draw the gem on the screen
 Gem.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
@@ -458,30 +454,22 @@ var gems = ['Orange', 'Green', 'Blue'];
 // for (var x = 0; x < gems.length; x++) {
 //     allGems.push(new Gem(gems[x]));
 // }
-Gem.prototype.getActive =  function () {
-    return new Gem(gems[randomInt(0, 2)]);
-};
+
 
 Gem.prototype.getAnother = function () {
-    this.sprite = 'images/Gem-' + gems[randomInt(0, 2)] + '-sm.png';
-    this.x = randomInt(this.minX, this.maxX);
-    this.y = randomInt(this.minY, this.maxY);
+    this.sprite = 'images/Gem-' + gems[Math.floor(Math.random() * (gems.length - 0 + 1)) + 0] + '-sm.png';
+    this.x = Math.floor(Math.random() * (this.maxX - this.minX + 1)) + this.minX;
+    this.y = Math.floor(Math.random() * (this.maxY - this.minY + 1)) + this.minY;
 };
 
 // instantiate first gem random color selector
-var activeGem = new Gem(gems[randomInt(0, 2)]);
+var activeGem = new Gem(gems[Math.floor(Math.random() * (gems.length - 0 + 1)) + 0]);
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 var player = new Player();
 
-// set number of enemies, could be used for a game levels feature also
-var Enemies = 3;
-var allEnemies = [];
-for (var x = 0; x < Enemies; x++) {
-    allEnemies.push(new Enemy());
-}
 
 // start and new game buttons
 var newGameDiv = document.createElement('div');
