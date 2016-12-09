@@ -160,7 +160,6 @@ function checkCollisions() {
     * sprite is path string to icon file
  */
 
-// TODO: add speed
 var GameItem = function () {
     this.sprite = '';
     this.x = 0;
@@ -298,7 +297,10 @@ var success = false;
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
+
+
 var Player = function() {
+    GameItem.call(this);
     // player sprite
     this.sprite = 'images/char-boy-cut.png';
     // player start coordinates
@@ -312,9 +314,9 @@ var Player = function() {
     this.hitGem = false;
 };
 
-//  seems like there should be a better way to do this
-//  because now I nav two sets of the same vars for Player
-//  but I could not find a way to call Engine.init
+Player.prototype = Object.create(GameItem.prototype);
+Player.prototype.constructor = Player;
+
 Player.prototype.reset = function () {
     this.x = startCoor[0];
     this.y = startCoor[1];
