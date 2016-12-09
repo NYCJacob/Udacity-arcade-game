@@ -112,11 +112,6 @@ var Engine = (function(global) {
         // added dt parameter to pass to player.update for kill feature
         player.update(dt);
 
-        // update all gems
-        // allGems.forEach(function (gem) {
-        //     gem.update();
-        // })
-
     }
 
     /* This function initially draws the "game level", it will then call
@@ -175,9 +170,6 @@ var Engine = (function(global) {
 
             player.render();
 
-            // var firstGem = allGems[0];
-            // firstGem.render();
-            // allGems.activeGem.render();
             activeGem.render();
     }
 

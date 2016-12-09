@@ -438,9 +438,6 @@ var Gem = function (color) {
     this.maxY = 330;
     this.x = Math.floor(Math.random() * (this.maxX - this.minX + 1)) + this.minX;
     this.y = Math.floor(Math.random() * (this.maxY - this.minY + 1)) + this.minY;
-    // there are three gems but only one at a time selected randomly at random intervals
-    // in render and update methods
-    //this.activeGem =  allGems[randomInt(0, 2)];
 };
 
 
@@ -450,11 +447,6 @@ Gem.prototype.render = function() {
 };
 
 var gems = ['Orange', 'Green', 'Blue'];
-// var allGems = [];
-// for (var x = 0; x < gems.length; x++) {
-//     allGems.push(new Gem(gems[x]));
-// }
-
 
 Gem.prototype.getAnother = function () {
     this.sprite = 'images/Gem-' + gems[Math.floor(Math.random() * (gems.length - 0 + 1)) + 0] + '-sm.png';
