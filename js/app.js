@@ -20,14 +20,6 @@ var timerDiv = document.getElementById('timer');
     * checkCollisions() checks for player enemy/gem contact
  */
 
-
-// global random int generator
-// function randomInt(min, max) {
-//     var rand = Math.random() * (max - min + 1);
-//     rand = Math.floor(rand) + min;
-//     return rand;
-// }
-
 function gameTimer(){
         seconds -= 1;
     // check if time is up
@@ -130,31 +122,11 @@ function checkCollisions() {
 }  // end checkCollisions()
 
 /* class objects
-    *   Enemy
-    *   Player
+    *   GameItem  (parent)
+    *       Enemy
+    *       Player
     *   Gem
 */
-
-/* game items superclass
-    * EnemyItem
- */
-//
-// var EnemyItem = {
-//     x : 0,
-//     y : 0,
-//     minX : 0,
-//     maxX : 505,
-//     minY : 100,
-//     maxY : 330,
-//     sprite : '',
-//     getRand : function (min, max) {
-//         return Math.floor(Math.random() * (max - min + 1)) + min;
-//     }
-// };
-//
-// // this is using EnemyItem superclass
-// var Enemy2 = Object.create(EnemyItem);
-// Enemy2.sprite = 'images/enemy-bug-cut.png';
 
 /* game superclass using function constructor
     * sprite is path string to icon file
@@ -209,19 +181,19 @@ EnemyItem.prototype.render = function() {
 };
 
 // set number of enemies, could be used for a game levels feature also
-var Enemies = 3;
+var ENEMIES = 3;
 var allEnemies = [];
-for (var i = 0; i < Enemies; i++) {
+for (var i = 0; i < ENEMIES; i++) {
     allEnemies.push(new EnemyItem('images/enemy-bug-cut.png'));
 }
 
 
 // Player starting values
 // player start coor set in global var because needed in multiple functions/methods
-var startCoor = [220, 500];
-var startPoints = 0;
-var maxLives =  2;
-var startDeaths = 0;
+var STARTCOOR = [220, 500];
+var STARTPOINTS = 0;
+var MAXLIVES =  2;
+var STARTDEATHS = 0;
 var dead = false;
 var success = false;
 
@@ -234,11 +206,11 @@ var Player = function() {
     // player sprite
     this.sprite = 'images/char-boy-cut.png';
     // player start coordinates
-    this.x = startCoor[0];
-    this.y = startCoor[1];
-    this.points = startPoints;
-    this.maxLives = maxLives;
-    this.deaths = startDeaths;
+    this.x = STARTCOOR[0];
+    this.y = STARTCOOR[1];
+    this.points = STARTPOINTS;
+    this.maxLives = MAXLIVES;
+    this.deaths = STARTDEATHS;
     this.dead = dead;
     this.success = success;
     this.hitGem = false;
@@ -248,11 +220,11 @@ Player.prototype = Object.create(GameItem.prototype);
 Player.prototype.constructor = Player;
 
 Player.prototype.reset = function () {
-    this.x = startCoor[0];
-    this.y = startCoor[1];
-    this.points = startPoints;
-    this.maxLives = maxLives;
-    this.deaths = startDeaths;
+    this.x = STARTCOOR[0];
+    this.y = STARTCOOR[1];
+    this.points = STARTPOINTS;
+    this.maxLives = MAXLIVES;
+    this.deaths = STARTDEATHS;
     this.dead = dead;
     this.success = success;
     scoreBoard();
@@ -330,13 +302,7 @@ Player.prototype.update = function (dt) {
         scoreBoard(2);
         // reset to prevent multiple bonuses
         this.hitGem = false;
-        // make new gem
-        // activeGem = setTimeout(function () {
-        //     activeGem.getActive();
-        // }, 5000);
-        // setTimeout(function () {
-        //     activeGem.getActive();
-        // }, 5000);
+
         setTimeout(function () {
             activeGem.getAnother();
         }, 5000);
@@ -376,13 +342,15 @@ Gem.prototype.render = function() {
 var gems = ['Orange', 'Green', 'Blue'];
 
 Gem.prototype.getAnother = function () {
-    this.sprite = 'images/Gem-' + gems[Math.floor(Math.random() * (gems.length + 1)) + 0] + '-sm.png';
+    this.sprite = 'images/Gem-' + gems[Math.floor(Math.random() * (gems.length + 1))] + '-sm.png';
     this.x = Math.floor(Math.random() * (this.maxX - this.minX + 1)) + this.minX;
     this.y = Math.floor(Math.random() * (this.maxY - this.minY + 1)) + this.minY;
 };
 
 // instantiate first gem random color selector
-var activeGem = new Gem(gems[Math.floor(Math.random() * (gems.length + 1)) + 0]);
+//  this seems to be causing a +1 error lookup on gems[]
+// var activeGem = new Gem(gems[Math.floor(Math.random() * (gems.length + 1))]);
+var activeGem = new Gem(gems[Math.floor(Math.random() * (gems.length))]);
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies

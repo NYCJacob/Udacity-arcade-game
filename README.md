@@ -14,4 +14,6 @@ This is a simple frogger style arcade game.
 * You get two lives and two minutes to play.
 
 # Bugs/Contributing
+* improvements could be made if collision funtion was a method of enemy
+* should probably put all the global functions in a game utility class
 * To report bugs or contribute please use the Github repo here: [Github repo ](https://github.com/NYCJacob/Udacity-arcade-game)
